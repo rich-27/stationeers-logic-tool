@@ -27,10 +27,10 @@ namespace StationeersLogicTool.Models
         {
             Chips.Add(chip);
 
-            if (powerNetwork is object) { chip.PowerPort.SetNetwork(powerNetwork); }
+            if (powerNetwork is object && chip is PoweredChip p) { p.PowerPort.SetNetwork(powerNetwork); }
 
-            if (chip.In1Port is object) { in1Connection?.Connect(chip.In1Port); }
-            if (chip.In2Port is object) { in2Connection?.Connect(chip.In2Port); }
+            if (chip.DataInPorts.FirstOrDefault() is DataInPort dataIn1) { in1Connection?.Connect(dataIn1); }
+            if (chip.DataInPorts.ElementAtOrDefault(1) is DataInPort dataIn2) { in2Connection?.Connect(dataIn2); }
         }
     }
 }

@@ -20,34 +20,34 @@ namespace StationeersLogicTool
 
             model.AddChip(new LogicReader(), powerGrid);
             model.AddChip(new LogicWriter(), powerGrid,
-                chips.Last(c => c is LogicReader).OutPort);
+                chips.Last<LogicReader>().DataOutPort);
 
             powerGrid = new Network();
 
             model.AddChip(new LogicReader(), powerGrid);
             model.AddChip(new LogicMemoryUnit(15));
             model.AddChip(new MinMaxUnit(), powerGrid,
-                chips.Last(c => c is LogicReader).OutPort,
-                chips.Last(c => c is LogicMemoryUnit).OutPort);
+                chips.Last<LogicReader>().DataOutPort,
+                chips.Last<LogicMemoryUnit>().DataOutPorts.First());
             model.AddChip(new MathUnit() { Mode = MathMode.SUBTRACT }, powerGrid,
-                chips.Last(c => c is LogicReader).OutPort,
-                chips.Last(c => c is MinMaxUnit).OutPort);
+                chips.Last<LogicReader>().DataOutPort,
+                chips.Last<MinMaxUnit>().DataOutPort);
 
             model.AddChip(new LogicMemoryUnit(1.5));
             model.AddChip(new MathUnit() { Mode = MathMode.DIVIDE }, powerGrid,
-                chips.Last(c => c is MathUnit).OutPort,
-                chips.Last(c => c is LogicMemoryUnit).OutPort);
+                chips.Last<MathUnit>().DataOutPort,
+                chips.Last<LogicMemoryUnit>().DataOutPorts.First());
 
             model.AddChip(new LogicMemoryUnit(100));
             model.AddChip(new MathUnit() { Mode = MathMode.MULTIPLY }, powerGrid,
-                chips.First(c => c is LogicReader).OutPort,
-                chips.Last(c => c is LogicMemoryUnit).OutPort);
+                chips.First<LogicReader>().DataOutPort,
+                chips.Last<LogicMemoryUnit>().DataOutPorts.First());
 
             model.AddChip(new MinMaxUnit(), powerGrid,
-                chips.Last(c => c is MathUnit m && m.Mode == MathMode.DIVIDE).OutPort,
-                chips.Last(c => c is MathUnit).OutPort);
+                chips.Last<MathUnit>(c => c.Mode == MathMode.DIVIDE).DataOutPort,
+                chips.Last<MathUnit>().DataOutPort);
             model.AddChip(new BatchWriter(), powerGrid,
-                chips.Last(c => c is MinMaxUnit).OutPort);
+                chips.Last<MinMaxUnit>().DataOutPort);
         }
     }
 }

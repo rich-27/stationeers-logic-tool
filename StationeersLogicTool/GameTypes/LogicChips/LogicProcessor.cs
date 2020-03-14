@@ -4,10 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using StationeersLogicTool.GameTypes.Networking;
+
 namespace StationeersLogicTool.GameTypes.LogicChips
 {
-    public abstract class LogicProcessorChip : Chip
+    public abstract class LogicProcessorChip : PoweredChip
     {
+        public DataOutPort DataOutPort => DataOutPorts.FirstOrDefault();
+
         protected LogicProcessorChip(string label) : base(label, 25,
             new PortMap() { Top = PortSpec.POWER, Left = PortSpec.DATA_IN, Right = PortSpec.DATA_IN, Bottom = PortSpec.DATA_OUT })
         { }

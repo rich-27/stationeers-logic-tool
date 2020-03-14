@@ -6,11 +6,11 @@ namespace StationeersLogicTool.GameTypes.Networking
     {
         public Chip Chip { get; private set; }
         public Network Network { get; private set; }
-
-        public static T Create<T>(Chip chip) where T : Port, new() => new T() { Chip = chip };
         
         public void SetNetwork(Network network) { ClearNetwork(); Network = network; network.Ports.Add(this); }
         public void ClearNetwork() { Network?.Ports.Remove(this); Network = null; }
+
+        public static T Create<T>(Chip chip) where T : Port, new() => new T() { Chip = chip };
     }
 
     public class PowerPort : Port { }
